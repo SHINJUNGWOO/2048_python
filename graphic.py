@@ -11,15 +11,23 @@ class graphic:
         self.screen=pygame.display.set_mode((self.width,self.height),0,32)
         self.clock=pygame.time.Clock()
         self.font = pygame.font.SysFont('굴림',self.font_size)
+
+
+        # font and screen initalize
+
    # Initaialize var and font ,open window 
     def key_lock(self):
         self.key_push= False
         self.Key=None
+        # keyboard is pressed=> key_push is True 
+        # key is return value for what key is pressd
         while self.Key == None and self.key_push==False:
             for event in pygame.event.get():
 
                 if event.type ==pygame.QUIT:
                     pygame.quit()
+
+                    # quit event 
                 key_list = pygame.key.get_pressed()
                 if key_list[pygame.K_LEFT]:    
                     self.key= 1
@@ -30,10 +38,12 @@ class graphic:
                 elif key_list[pygame.K_DOWN]:
                     self.key= 4
 
-                if event.type == pygame.KEYUP:
+                if event.type == pygame.KEYDOWN:
                     self.key_push =True
+                    # key press => key_push is True
                 elif event.type == pygame.KEYUP:
                     self.key_push =False
+                    # key nonpress => key_push is False
         return self.key
     
     # left 1 right 2 up 3 down 4

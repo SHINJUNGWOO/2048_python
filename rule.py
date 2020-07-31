@@ -4,14 +4,16 @@ class map:
         self.life = True
         self.mapsize = 4
         self.map=[[0 for _ in range(self.mapsize)] for _ in range(self.mapsize)]
-        self.map_check=[[False for _ in range(self.mapsize)] for _ in range(self.mapsize)]
+        
         self.direction=None
+
+        #initalize
     def print_map(self):
         for i in range(self.mapsize):
             for j in range(self.mapsize):
                 print(self.map[i][j],end=" ")
             print()
-
+        # Draw map for debugging
     def map_draw(self):
         count=0
         empty_map=[]
@@ -27,13 +29,14 @@ class map:
         else:
             rand_position = empty_map[random.randint(0,len(empty_map)-1)]
             self.map[rand_position[0]][rand_position[1]]=2
-
+        # make random 2 in map 
 class run:
     def __init__(self,map):
         self.map = map.map
         self.mapsize=map.mapsize
-        self.plus_check=[[0 for _ in range(self.mapsize)] for _ in range(map.mapsize)]
-        # if plus 0=>1 in next array
+        self.map_check=[[False for _ in range(self.mapsize)] for _ in range(self.mapsize)]
+    # checking map number is added
+
 
     def up_move(self):
         self.direction = "UP"
@@ -64,11 +67,7 @@ class run:
                 self.move(i,j)
 
 
-
-
-# This part need Refactoring
-# If some good idea get up, change part for CLEAN CODE
-################## Test Case ##################
+################## Recursive Call for add ##################
 
     def move(self,i,j):
         
@@ -96,9 +95,12 @@ class run:
             if j<1:
                 return 0
 
+    # For generality,
+    # move way force tmp_y and tmp_x which mean next finding map position
 
         if self.map[i][j] == 0:
             pass
+        #  0 pass
         else:
             if self.map[tmp_y][tmp_x]==0:
                 self.map[tmp_y][tmp_x]=self.map[i][j]
@@ -106,9 +108,11 @@ class run:
                 self.map[i][j]=0
                 self.map_check[i][j] =False
                 self.move(tmp_y,tmp_x)
+            # next array is 0 move present arry to next array
             elif self.map[tmp_y][tmp_x]==self.map[i][j]:
                 if self.map_check[i][j] ==True:
                     self.move(tmp_y,tmp_x)
+                #next array is same, plus
                 else:
                     self.map_check[i][j]= True
                     self.map[tmp_y][tmp_x] +=self.map[i][j]
@@ -116,4 +120,7 @@ class run:
                     self.map[i][j]=0
                     self.map_check[i][j] =False
                     self.move(tmp_y,tmp_x)
-    
+                    # map position is already plused, Stop add, this prevent 2 2 0 4 => 0 0 0 8 
+
+
+    #Recursive call for number add
